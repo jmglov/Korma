@@ -21,14 +21,14 @@
            idle-connection-test-period
            test-connection-on-checkin
            test-connection-on-checkout]
-    :or {excess-timeout (* 30 60)
-         idle-timeout (* 3 60 60)
-         minimum-pool-size 3
-         maximum-pool-size 15
-         test-connection-query nil
-         idle-connection-test-period 0
-         test-connection-on-checkin false
-         test-connection-on-checkout false}
+    :or {excess-timeout (Integer/getInteger "c3p0.maxIdleTimeExcessConnections" (* 30 60))
+         idle-timeout (Integer/getInteger "c3p0.maxIdleTime" (* 3 60 60))
+         minimum-pool-size (Integer/getInteger "c3p0.minPoolSize" 3)
+         maximum-pool-size (Integer/getInteger "c3p0.maxPoolSize" 15)
+         test-connection-query (System/getProperty "c3p0.preferredTestQuery")
+         idle-connection-test-period (Integer/getInteger "c3p0.idleConnectionTestPeriod" 0)
+         test-connection-on-checkin (Boolean/getBoolean "c3p0.testConnectionOnCheckin")
+         test-connection-on-checkout (Boolean/getBoolean "c3p0.testConnectionOnCheckout")}
     :as spec}]
   {:datasource (doto (ComboPooledDataSource.)
                  (.setDriverClass classname)
